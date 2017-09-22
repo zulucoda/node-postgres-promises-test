@@ -31,9 +31,25 @@ const getAllAlfaRomeos = function (req, res, next) {
     });
 };
 
+const getSingleAlfaRomeo = function (req, res, next) {
+  const carId = parseInt(req.params.id);
+  db.one('select * from cars where id = $1', carId)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ONE alfa romeo'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+};
+
 module.exports = {
   getAllAlfaRomeos: getAllAlfaRomeos,
-  // getSingleAlfaRomeo: getSingleAlfaRomeo,
+  getSingleAlfaRomeo: getSingleAlfaRomeo,
   // createAlfaRomeo: createAlfaRomeo,
   // updateAlfaRomeo: updateAlfaRomeo,
   // removeAlfaRomeo: removeAlfaRomeo
