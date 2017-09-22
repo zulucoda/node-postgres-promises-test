@@ -47,10 +47,22 @@ const getSingleAlfaRomeo = function (req, res, next) {
     });
 };
 
+const createAlfaRomeo = function (req, res, next) {
+  req.body.age = parseInt(req.body.age);
+  db.none('insert into cars (name, colour, age, engine) ' +
+    'values (${name}, ${colour}, ${age}, ${engine})', req.body)
+    .then(function () {
+      res.status(200).json({status: 'success', message: 'Inserted one Alfa Romeo'})
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+};
+
 module.exports = {
   getAllAlfaRomeos: getAllAlfaRomeos,
   getSingleAlfaRomeo: getSingleAlfaRomeo,
-  // createAlfaRomeo: createAlfaRomeo,
+  createAlfaRomeo: createAlfaRomeo,
   // updateAlfaRomeo: updateAlfaRomeo,
   // removeAlfaRomeo: removeAlfaRomeo
 };
